@@ -20,7 +20,6 @@ export async function add(text: string): Promise<Todo> {
         completed: false,
       };
       TASKS.push(newTask);
-      console.log(TASKS);
 
       resolve(newTask);
     }, 2000);

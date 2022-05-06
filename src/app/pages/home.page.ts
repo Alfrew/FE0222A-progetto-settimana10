@@ -14,57 +14,66 @@ import * as taskServ from '../services/todos.service';
         placeholder="Write new task"
         [(ngModel)]="newTask"
       />
-      <button class="btn btn-secondary" (click)="addTask()">Add Task</button>
+      <button class="btn btn-secondary" (click)="addTask()">
+        Add&nbsp;Task
+      </button>
     </div>
 
+    <!-- Message -->
     <div class="container mt-5">
       <p *ngIf="tasks.length === 0" class="text-center text-muted display-6">
         {{ message }}
       </p>
+
+      <!-- List -->
       <ul class="list-unstyled">
         <li *ngFor="let task of tasks" class="display-6 mt-3">
-          <div
-            *ngIf="task !== undefined"
-            class="d-flex justify-content-between border-bottom"
-          >
-            <span
+          <div *ngIf="task !== undefined">
+            <!-- Task and buttons -->
+            <div
               *ngIf="!task.change"
-              [class.text-decoration-line-through]="task.completed"
-              >- {{ task.title | titlecase }}</span
+              class="d-flex justify-content-between border-bottom"
             >
-            <span *ngIf="task.change" class="d-flex"
-              ><input
+              <span
+                [ngClass]="{
+                  'text-muted': task.completed,
+                  'text-decoration-line-through': task.completed
+                }"
+                >- {{ task.title | titlecase }}</span
+              >
+              <span>
+                <button
+                  type="button"
+                  class="btn rounded-pill text-success"
+                  [disabled]="task.completed"
+                  (click)="change(task.id - 1, true)"
+                >
+                  <i class="bi bi-pencil-fill"></i>
+                </button>
+                <button
+                  type="button"
+                  class="btn rounded-pill text-success"
+                  [disabled]="task.completed"
+                  (click)="complete(task.id - 1)"
+                >
+                  <i class="bi bi-check-circle-fill"></i>
+                </button>
+              </span>
+            </div>
+
+            <!-- Input for changing the task -->
+            <div *ngIf="task.change" class="d-flex">
+              <input
                 class="form-control"
                 type="text"
                 [(ngModel)]="task.title"
               /><button
-                class="btn btn-success form-control"
+                class="btn btn-success"
                 (click)="change(task.id - 1, false)"
               >
-                Change Task
-              </button></span
-            >
-
-            <span>
-              <button
-                *ngIf="!task.change"
-                type="button"
-                class="btn rounded-pill text-success"
-                [disabled]="task.completed"
-                (click)="change(task.id - 1, true)"
-              >
-                <i class="bi bi-pencil-fill"></i>
+                Change&nbsp;Task
               </button>
-              <button
-                *ngIf="!task.change"
-                type="button"
-                class="btn rounded-pill text-success"
-                [disabled]="task.completed"
-                (click)="complete(task.id - 1)"
-              >
-                <i class="bi bi-check-circle-fill"></i>
-              </button>
-            </span>
+            </div>
           </div>
         </li>
       </ul>
