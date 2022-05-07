@@ -1,7 +1,7 @@
-import { Todo } from '../interfaces/todo';
+import { Todo } from "../interfaces/todo";
 
 export const TASKS: Todo[] = [];
-
+// get tasks promise
 export async function getTasks(): Promise<Todo[]> {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
@@ -9,19 +9,36 @@ export async function getTasks(): Promise<Todo[]> {
     }, 2000);
   });
 }
-
-export async function add(text: string): Promise<Todo> {
+// add task promise
+export async function addTask(text: string): Promise<Todo[]> {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       const newTask: Todo = {
         id: TASKS.length + 1,
         title: text,
-        change: false,
         completed: false,
+        change: false,
       };
       TASKS.push(newTask);
-
-      resolve(newTask);
+      resolve(TASKS);
+    }, 2000);
+  });
+}
+// complete task promise
+export async function compTask(index: number): Promise<Todo[]> {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      TASKS[index].completed = true;
+      resolve(TASKS);
+    }, 2000);
+  });
+}
+// delete task promise
+export async function delTask(index: number): Promise<Todo[]> {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      delete TASKS[index];
+      resolve(TASKS);
     }, 2000);
   });
 }
